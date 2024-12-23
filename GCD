@@ -1,0 +1,27 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+// Function to calculate GCD using Euclid's algorithm
+int gcd(int a, int b) {
+    while (b != 0) {
+        int temp = b;
+        b = a % b;
+        a = temp;
+    }
+    return a;
+}
+
+// Function to find GCD of smallest and largest numbers in the array
+int findGCD(vector<int>& nums) {
+    int min_num = *min_element(nums.begin(), nums.end());
+    int max_num = *max_element(nums.begin(), nums.end());
+    return gcd(min_num, max_num);
+}
+
+int main() {
+    vector<int> nums = {2, 5, 6, 9, 10}; // Example input
+    cout << "GCD: " << findGCD(nums) << endl; // Output the GCD
+    return 0;
+}
