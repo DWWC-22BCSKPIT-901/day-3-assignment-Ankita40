@@ -1,0 +1,75 @@
+#include <iostream>
+using namespace std;
+
+// Definition for singly-linked list node.
+struct ListNode {
+    int val;
+    ListNode* next;
+    ListNode() : val(0), next(nullptr) {}
+    ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(int x, ListNode* next) : val(x), next(next) {}
+};
+
+// Function to reverse the list iteratively
+ListNode* reverseListIterative(ListNode* head) {
+    ListNode* prev = nullptr;
+    ListNode* current = head;
+    while (current != nullptr) {
+        ListNode* nextNode = current->next; // Store the next node
+        current->next = prev;              // Reverse the link
+        prev = current;                    // Move prev forward
+        current = nextNode;                // Move current forward
+    }
+    return prev; // New head of the reversed list
+}
+
+// Function to reverse the list recursively
+ListNode* reverseListRecursive(ListNode* head) {
+    if (head == nullptr || head->next == nullptr) {
+        return head; // Base case: return head if it's the only node or null
+    }
+    ListNode* newHead = reverseListRecursive(head->next); // Recurse to the next node
+    head->next->next = head; // Reverse the current node's link
+    head->next = nullptr;    // Set the current node's next to null
+    return newHead;          // Return the new head of the reversed list
+}
+
+// Helper function to print a linked list
+void printList(ListNode* head) {
+    while (head != nullptr) {
+        cout << head->val << " ";
+        head = head->next;
+    }
+    cout << endl;
+}
+
+int main() {
+    // Create an example list: 1 -> 2 -> 3 -> 4 -> 5
+    ListNode* head = new ListNode(1);
+    head->next = new ListNode(2);
+    head->next->next = new ListNode(3);
+    head->next->next->next = new ListNode(4);
+    head->next->next->next->next = new ListNode(5);
+
+    cout << "Original List: ";
+    printList(head);
+
+    // Reverse iteratively
+    ListNode* reversedIterative = reverseListIterative(head);
+    cout << "Reversed List (Iterative): ";
+    printList(reversedIterative);
+
+    // Reset the list for recursive reversal
+    head = new ListNode(1);
+    head->next = new ListNode(2);
+    head->next->next = new ListNode(3);
+    head->next->next->next = new ListNode(4);
+    head->next->next->next->next = new ListNode(5);
+
+    // Reverse recursively
+    ListNode* reversedRecursive = reverseListRecursive(head);
+    cout << "Reversed List (Recursive): ";
+    printList(reversedRecursive);
+
+    return 0;
+}
